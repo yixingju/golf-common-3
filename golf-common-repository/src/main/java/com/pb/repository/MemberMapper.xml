@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pb.repository.MemberRepository">
+    <sql id="allColumn">
+        m_id,m_readme,m_sex,m_mobile,m_idcard,m_birthday,m_email,m_defPoint,m_createDate,m_modifyDate,mr_id
+    </sql>
+
+    <delete id="deleteMemberById">
+        DELETE FROM golf_member WHERE m_id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="com.pb.pojo.Member">
+        SELECT <include refid="allColumn" /> FROM golf_member
+    </select>
+    <select id="findMenberByrealNameLike" resultType="com.pb.pojo.Member">
+        SELECT <include refid="allColumn" /> FROM golf_member
+        <where>
+            <if test="realName!=null and realName!=''">
+                m_readme LIKE CONCAT('%',#{realName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="findMemberById" resultType="com.pb.pojo.Member">
+        SELECT <include refid="allColumn" /> FROM golf_member
+        WHERE m_id = #{id}
+    </select>
+    <select id="findMemberByUsername" resultType="com.pb.pojo.Member">
+        SELECT <include refid="allColumn" /> FROM golf_member
+        WHERE m_readme = #{username}
+    </select>
+    <select id="findMembersBySex" resultType="com.pb.pojo.Member">
+        SELECT <include refid="allColumn" /> FROM golf_member
+        <where>
+            <if test="sex!=null and sex!''">
+                m_sex = #{sex}
+            </if>
+        </where>
+    </select>
+</mapper>
